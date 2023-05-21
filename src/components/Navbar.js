@@ -1,4 +1,6 @@
+
 import { useMemo } from "react";
+import { Link , useLocation} from "react-router-dom"
 import { useAuthContext } from "../context/AuthContext"
 
 const LogIn = () => {
@@ -22,16 +24,48 @@ const LogOut = () => {
  };
 
 function Navigation() {
-  return(
+  const { currentUser } = useAuthContext();
+  const { pathname } = useLocation();
+  return (
     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-    {/* remove all links except HOME */}
-    <li className="nav-item">
-      <a className="nav-link active" aria-current="page" href="#">
-        Home
-      </a>
-    </li>
-  </ul>
-  )
+      {/* remove all links except HOME */}
+      <li className="nav-item">
+        <Link
+          className={`nav-link ${pathname === "/" ? "active" : ""}`}
+          aria-current="page"
+          to="/"
+        >
+          Home
+        </Link>
+      </li>
+      {currentUser && (
+        <li className="nav-item">
+          <Link
+            className={`nav-link ${
+              pathname === "/stockimages" ? "active" : ""
+            }`}
+            aria-current="page"
+            to="/stockimages"
+          >
+            My Stock Images
+          </Link>
+        </li>
+      )}
+        {currentUser && (
+        <li className="nav-item">
+          <Link
+            className={`nav-link ${
+              pathname === "/profile" ? "active" : ""
+            }`}
+            aria-current="page"
+            to="/profile"
+          >
+            Profile
+          </Link>
+        </li>
+      )}
+    </ul>
+  );
 }
 
 function SearchForm() {
@@ -51,45 +85,59 @@ function SearchForm() {
 }
 
 function Dropdown() {
-  const { currentUser } = useAuthContext() 
+  const { currentUser } = useAuthContext();
 
   const username = useMemo(() => {
-    return currentUser?.displayName || "Profile"
-  }, [currentUser])
+    return currentUser?.displayName || "Profile";
+  }, [currentUser]);
 
   const avatar = useMemo(() => {
-    return !!currentUser ?
-    <img className="avatar" src={currentUser?.photoURL} alt={currentUser?.displayName } width="34" height="34"/> :
-     "Login"
-  }, [currentUser])
-  return( <ul className="navbar-nav mb-2 mb-lg-0">
-  {" "}
-  {/* remove ms-auto */}
-  <li className="nav-item dropdown">
-    <a
-      className="nav-link dropdown-toggle"
-      href="#"
-      id="navbarDropdown"
-      role="button"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    > 
-    {avatar}
-    </a>
-    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-      <li>
-        <a className="dropdown-item text-center" href="#">
-          {username}
+    return !!currentUser ? (
+      <img
+        className="avatar"
+        src={currentUser?.photoURL}
+        alt={currentUser?.displayName}
+        width="34"
+        height="34"
+      />
+    ) : (
+      "Login"
+    );
+  }, [currentUser]);
+  return (
+    <ul className="navbar-nav mb-2 mb-lg-0">
+      {" "}
+      {/* remove ms-auto */}
+      <li className="nav-item dropdown">
+        <a
+          className="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdown"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          {avatar}
         </a>
-        <li><hr className="dropdown divider"/></li>
+        <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+          {currentUser && (
+            <li>
+              <a className="dropdown-item text-center" href="#">
+                <Link to="/profile">{username}</Link>
+              </a>
+              <li>
+                <hr className="dropdown divider" />
+              </li>
+            </li>
+          )}
+          <div className="d-flex justify-content-center">
+            <LogIn />
+            <LogOut />
+          </div>
+        </ul>
       </li>
-      <div className="d-flex justify-content-center">
-        <LogIn />
-        <LogOut />
-      </div>
     </ul>
-  </li>
-</ul>)
+  );
 }
 
 function Navbar() {
