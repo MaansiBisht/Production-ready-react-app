@@ -1,7 +1,8 @@
 
-import { useMemo } from "react";
+import { useMemo , useState} from "react";
 import { Link , useLocation} from "react-router-dom"
 import { useAuthContext } from "../context/AuthContext"
+import { useFirebaseContext } from "../context/FirebaseContext";
 
 const LogIn = () => {
   const {login, currentUser } = useAuthContext() 
@@ -69,19 +70,30 @@ function Navigation() {
 }
 
 function SearchForm() {
-  return(
-    <form className="d-flex">
-    <input
-      className="form-control me-2"
-      type="search"
-      placeholder="Search"
-      aria-label="Search"
-    />
-    <button className="btn btn-outline-success" type="submit">
-      Search
-    </button>
-  </form>
-  )
+  const [text, search] = useState(null)
+  const { filterItems: filter } = useFirebaseContext()
+  const handleOnChange= e => {
+    search(e.target.value)
+    filter(e.target.value)
+  }
+  const handleOnSubmit = e => {
+    e.preventDefault()
+    filter(text)
+  }
+  return (
+    <form className="d-flex" onSubmit={handleOnSubmit}>
+      <input
+        onChange={handleOnChange}
+        className="form-control me-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+      />
+      <button className="btn btn-outline-success" type="submit">
+        Search
+      </button>
+    </form>
+  );
 }
 
 function Dropdown() {
