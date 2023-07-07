@@ -42,5 +42,14 @@ Open the application in your browser at http://localhost:3000.
 
 ## Screenshots
 
+![Screenshot 1](https://github.com/MaansiBisht/Production-ready-react-app/blob/master/screenshots/Screenshot1.png)
+ gallery view that allows users to browse and view multiple images in a visually appealing manner. This gallery view enhances the user experience by providing an immersive and intuitive way to explore images.
+
+![Screenshot 2](https://github.com/MaansiBisht/Production-ready-react-app/blob/master/screenshots/Screenshot2.png)
+This screenshot captures a relevant part of the application where an image upload form is displayed, allowing users to select an image file from their local machine and upload it to Firebase Cloud Storage. The uploaded image is then displayed on the website, demonstrating successful integration with Firebase Cloud Storage for image storage and retrieval of information from image buckets.
+
+![Screenshot 3](https://github.com/MaansiBisht/Production-ready-react-app/blob/master/screenshots/Screenshot3.png)
+The screenshot highlights the authentication flow using Firebase Authentication. It demonstrates the user interface where users can sign in with their Google accounts
+
 
    
